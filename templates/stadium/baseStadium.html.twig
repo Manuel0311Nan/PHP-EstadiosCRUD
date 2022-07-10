@@ -3,8 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Stadiums APP{% endblock %}</title>
+        {% block stylesheets %}
+           <link href="{{ asset('styles/estilos.css') }}" rel="stylesheet" />
+        {% endblock %}
     </head>
     <body>
         <div class="container">
@@ -16,12 +18,11 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
-                        <a class="nav-link" href="{{path("getpokemons")}}">Listar Pokemon</a>
-                        <a class="nav-link" href="#">Crear Pokemon</a>
+                        <a class="nav-link" href="{{path("getStadiums")}}">Lista de Estadios</a>
+                        <a class="nav-link" href="{{path("newStadium")}}">Introducir nuevo Estadio</a>
                     </div>
                 </div>
             </nav>
-            
             {% block contenido %} {% endblock %}
             {% block js %} {% endblock %}
         </div>

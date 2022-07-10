@@ -2,28 +2,30 @@
 
 namespace App\Form;
 
-use App\Entity\Pokemon;
+use App\Entity\Stadium;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PokemonType extends AbstractType
+class StadiumCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('city')
+            ->add('capacity')
+            ->add('team')
             ->add('image')
-            ->add('code')
-            ->add('Envia', SubmitType::class);
+            ->add('guardar', SubmitType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pokemon::class,
+            'data_class' => Stadium::class,
         ]);
     }
 }

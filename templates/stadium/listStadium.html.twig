@@ -1,0 +1,23 @@
+{% extends 'stadium/baseStadium.html.twig'%}
+{% block contenido %}
+<h2>Estadios de Futbol</h2>
+{%for message in app.flashes('success') %}
+    <p>{{message}}</p>
+{%endfor%}
+
+<div class="row row-cols-1 row-cols-md-2">
+    {% for stadium in stadiums %}
+        <div class="col mb-4">
+            <div class="card">
+                <img src="{{stadium.image}}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{stadium.name}}</h5>
+                    <a href="{{path("showStadium", {"id":stadium.id})}}" class="btn btn-success"> Más info </a>
+                    <a href="{{path("editStadium", {"id":stadium.id})}}" class="btn btn-primary"> Editar Estadio</a>
+                    <a href="{{path("showStadium", {"id":stadium.id})}}" class="btn btn-danger"> Más info </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -2,92 +2,78 @@
 
 namespace App\Controller;
 
-use App\Entity\Pokemon;
-use App\Form\PokemonType;
+use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Stadium;
+use App\Form\StadiumCreateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
-
-{
-
-    #[Route("/pokemon/{id}", name: "showpokemon")]
-    public function getPokemon($id, EntityManagerInterface $doctrine)
-    {
-        $repository = $doctrine->getRepository(Pokemon::class);
-        $pokemon = $repository->find($id);
-
-        return $this->render("pokemon/showpkmn.html.twig", ["pokemon" => $pokemon]);
-    }
-
-
-    #[Route("/pokemons", name: "getpokemons")]
-    public function getPokemons(EntityManagerInterface $doctrine)
-    {
-        $repository = $doctrine->getRepository(Pokemon::class);
-        $pokemons = $repository->findAll();
-        return $this->render("pokemon/listPokemon.html.twig", ["pokemons" => $pokemons]);
-    }
-    #[Route("/insert/pokemon")]
-    public function insertpokemon(EntityManagerInterface $doctrine)
-    {
-
-        $pokemon1 = new Pokemon();
-        $pokemon1->setName("Bulbasaur");
-        $pokemon1->setDescription("There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.");
-        $pokemon1->setImage("https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png");
-        $pokemon1->setCode(1);
-
-        $pokemon2 = new Pokemon();
-        $pokemon2->setName("Heliolisk");
-        $pokemon2->setDescription("A now-vanished desert culture treasured these Pokémon. Appropriately, when Heliolisk came to the Galar region, treasure came with them.");
-        $pokemon2->setImage("https://assets.pokemon.com/assets/cms2/img/pokedex/full/695.png");
-        $pokemon2->setCode(2);
-
-        $pokemon3 = new Pokemon();
-        $pokemon3->setName("Baltoy");
-        $pokemon3->setDescription("It moves while spinning around on its single foot. Some Baltoy have been seen spinning on their heads.");
-        $pokemon3->setImage("https://assets.pokemon.com/assets/cms2/img/pokedex/full/343.png");
-        $pokemon3->setCode(3);
-
-        $doctrine->persist($pokemon1);
-        $doctrine->persist($pokemon2);
-        $doctrine->persist($pokemon3);
-        $doctrine->flush();
-        return new Response("pokemon insertados correctamente");
-    }
-    #[Route('/new/pokemon')]
-    public function newPokemon(Request $request, EntityManagerInterface $doctrine)
-    {
-        $form = $this->createForm(PokemonType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $pokemon = $form->getData();
-            $doctrine->persist($pokemon);
-            $doctrine->flush();
-            $this->addFlash('success', 'pokemon creado correctamente');
-            return $this->redirectToRoute('getpokemons');
-        }
-        return $this->renderForm("pokemon/newPokemon.html.twig", ["pokeForm" => $form]);
-    }
-    #[Route('/edit/pokemon/{id}', name: 'editpokemon')]
-    public function editPokemon(Request $request, EntityManagerInterface $doctrine, $id)
-    {
-        $repository = $doctrine->getRepository(Pokemon::class);
-        $pokemon = $repository->find($id);
-        $form = $this->createForm(PokemonType::class, $pokemon);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $pokemon = $form->getData();
-            $doctrine->persist($pokemon);
-            $doctrine->flush();
-            $this->addFlash('success', 'pokemon creado correctamente');
-            return $this->redirectToRoute('getpokemons');
-        }
-        return $this->renderForm("pokemon/newPokemon.html.twig", ["pokeForm" => $form]);
-    }
+class DefaultController extends AbstractController{
+#[Route("/stadium/{id}", name:"showStadium")]
+public function getStadium($id, EntityManagerInterface $doctrine){
+    $repository = $doctrine->getRepository(Stadium::class);
+    $stadium=$repository->find($id);
+return $this-> render("stadium/stadium.html.twig", ["stadium"=>$stadium]);
 }
+#[Route("/Liststadiums", name:"getStadiums")]
+public function getStadiums(EntityManagerInterface $doctrine)
+{
+$repository = $doctrine->getRepository(Stadium::class);
+$stadiums=$repository->findAll();
+return $this-> render("stadium/listStadium.html.twig", ["stadiums"=>$stadiums]);
+}
+// #[Route("/insert/stadium")]
+// public function insertStadium(EntityManagerInterface $doctrine)
+// {
+// $stadium1 =new Stadium();
+// $stadium1 -> setName("San Siro");
+// $stadium1 -> setCity("Milán");
+// $stadium1 -> setCapacity(80018);
+// $stadium1 -> setTeam("A.C Milán");
+// $stadium1 -> setImage("https://res.cloudinary.com/dcpgr4jjn/image/upload/v1657467892/images/sansiro_nhpwv9.jpg");
+
+// $stadium2 =new Stadium();
+// $stadium2 -> setName("Santiago Bernabéu");
+// $stadium2 -> setCity("Madrid");
+// $stadium2 -> setCapacity(81044);
+// $stadium2 -> setTeam("Real Madrid");
+// $stadium2-> setImage("https://res.cloudinary.com/dcpgr4jjn/image/upload/v1657467892/images/bernabeu_ecm2nc.jpg");
+
+// $doctrine->persist($stadium1);
+// $doctrine->persist($stadium2);
+
+// $doctrine->flush();
+// return new Response("Stadiums Actualized");
+// }
+#[Route('/new/stadium', name: "newStadium")]
+public function newStadium(Request $request, EntityManagerInterface $doctrine){
+
+    $form=$this->createForm(StadiumCreateType::class);
+    $form->handleRequest($request);
+    if($form->isSubmitted()&& $form->isValid()){
+        $stadium = $form->getData();
+        $doctrine->persist($stadium);
+        $doctrine->flush();
+        return $this-> redirectToRoute('getStadiums');
+    }
+    return $this-> renderForm("stadium/newStadium.html.twig", ["stadiumForm"=>$form]);
+}
+#[Route('/edit/stadium/{id}', name: "editStadium")]
+public function editStadium( $id, Request $request, EntityManagerInterface $doctrine){
+
+    $repository = $doctrine->getRepository(Stadium::class);
+    $stadium=$repository->find($id);
+    $form=$this->createForm(StadiumCreateType::class, $stadium);
+    $form->handleRequest($request);
+    if($form->isSubmitted()&& $form->isValid()){
+        $stadium = $form->getData();
+        $doctrine->persist($stadium);
+        $doctrine->flush();
+        return $this-> redirectToRoute('getStadiums');
+    }
+    return $this-> renderForm("stadium/newStadium.html.twig", ["stadiumForm"=>$form]);
+}
+ }
+?>
