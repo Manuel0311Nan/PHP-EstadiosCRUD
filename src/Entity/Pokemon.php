@@ -21,8 +21,7 @@ class Pokemon
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
-
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $code;
 
     public function getId(): ?int
@@ -71,7 +70,8 @@ class Pokemon
         return $this->code;
     }
 
-    public function setCode(int $code): self
+
+    public function setCode(?int $code): self
     {
         $this->code = $code;
 
