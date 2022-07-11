@@ -1,4 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+*{
+    font-family: 'Bangers', cursive;
+    font-size: 20px;
+    color: darkgrey;
+}
 body{
-    background: rgb(255,255,255);
-
+    background-color: black;
+}
+.container{
+    background-color: black;
+    padding-bottom: 1em;
+}
+.title1{
+text-align: center;
+color: darkgrey;
+}
+.card{
+    width: 20em;
+    height: 22em;
+    margin: 1em;
+}
+.card-img-top{
+    width: 20em;
+    height: 10em;
+    padding: 1em;
+}
+.card-body{
+    display: flex;
+    flex-direction: column;
+}
+.card-title{
+    text-align: center;
+    color: black;
+}
+.image{
+    width: 1000px;
+    height: 600px;
+}
+.titleDetail{
+    color: white;
+    font-size: 18px;
+}
+.lista{
+    display: grid;
+    grid-template-columns: auto auto;
 }
