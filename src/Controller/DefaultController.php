@@ -64,5 +64,5 @@ public function deleteStadium($id, EntityManagerInterface $doctrine){
     $doctrine->flush();
     return $this->redirectToRoute('getStadiums');
 }
- }
+}
 ?>
